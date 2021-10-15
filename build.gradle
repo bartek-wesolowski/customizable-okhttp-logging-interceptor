@@ -1,9 +1,10 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id 'maven-publish'
 }
 
-group 'com.bartoszwesolowski'
-version '1.0-SNAPSHOT'
+group = 'com.github.jitpack'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -11,4 +12,22 @@ repositories {
 
 dependencies {
     api("com.squareup.okhttp3:okhttp:4.9.2")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Customizable OkHttp Logging Interceptor'
+                description = 'An OkHttp interceptor which logs HTTP request and response data and allows output customization.'
+                url = 'https://github.com/bartek-wesolowski/customizable-okhttp-logging-interceptor'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+            }
+        }
+    }
 }
