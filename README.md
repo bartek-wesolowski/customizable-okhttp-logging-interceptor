@@ -35,9 +35,19 @@ loggingInterceptor.redactHeader("Cookie")
 
 Download
 --------
+Add JitPack to the repository list:
+
+```groovy
+allprojects {
+  repositories {
+    ...
+
+    maven { url 'https://jitpack.io' }
+}
+```
 
 ```kotlin
-implementation("com.bartoszwesolowski:customizable-okhttp-logging-interceptor:1.0.0")
+implementation("com.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:1.0.0")
 ```
 
 
