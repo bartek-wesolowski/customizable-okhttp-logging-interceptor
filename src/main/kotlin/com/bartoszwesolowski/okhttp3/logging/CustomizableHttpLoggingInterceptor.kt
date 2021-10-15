@@ -22,6 +22,12 @@ import kotlin.math.min
  *
  * The format of the logs created by this class should not be considered stable and may
  * change slightly between releases. If you need a stable logging format, use your own interceptor.
+ *
+ * @param logger the logger to use. Each platform has a default one.
+ * @param logHeaders true to show headers
+ * @param logBody true to show body
+ * @param maxBodyLength the maximum body length to show. If body is longer than this value then it will be truncated to this
+ * length. This parameter is only used if `logBody` is true.
  */
 class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
   private val logger: Logger = Logger.DEFAULT,
