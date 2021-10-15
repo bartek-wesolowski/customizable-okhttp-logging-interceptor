@@ -1,6 +1,9 @@
 Customizable OkHttp Logging Interceptor
 ===================
 
+![example workflow](https://github.com/bartek-wesolowski/customizable-okhttp-logging-interceptor/actions/workflows/build.yml/badge.svg)
+[![](https://jitpack.io/v/bartek-wesolowski/customizable-okhttp-logging-interceptor.svg)](https://jitpack.io/#bartek-wesolowski/customizable-okhttp-logging-interceptor)
+
 An [OkHttp interceptor][interceptors] which logs HTTP request and response data and allows output customization.
 The implementation is based on the [Logging Interceptor from OkHttp][okhttp-logging-interceptor].
 
@@ -33,9 +36,9 @@ loggingInterceptor.redactHeader("Authorization")
 loggingInterceptor.redactHeader("Cookie")
 ```
 
-Download
+Installation
 --------
-Add JitPack to the repository list:
+Add [JitPack][jitpack] to the repository list:
 
 ```groovy
 allprojects {
@@ -53,3 +56,4 @@ implementation("com.github.bartek-wesolowski:customizable-okhttp-logging-interce
 
 [interceptors]: https://square.github.io/okhttp/interceptors/
 [okhttp-logging-interceptor]: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+[jitpack]: https://jitpack.io/#bartek-wesolowski/customizable-okhttp-logging-interceptor
