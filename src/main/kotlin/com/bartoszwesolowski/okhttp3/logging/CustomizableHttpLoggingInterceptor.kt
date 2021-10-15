@@ -14,6 +14,7 @@ import okhttp3.internal.http.promisesBody
 import okhttp3.internal.platform.Platform
 import okio.Buffer
 import okio.GzipSource
+import kotlin.math.min
 
 /**
  * An OkHttp interceptor which logs request and response information. Can be applied as an
@@ -25,7 +26,8 @@ import okio.GzipSource
 class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
   private val logger: Logger = Logger.DEFAULT,
   private val logHeaders: Boolean = false,
-  private val logBody: Boolean = false
+  private val logBody: Boolean = false,
+  private val maxBodyLength: Long = Long.MAX_VALUE
 ) : Interceptor {
 
   @Volatile private var headersToRedact = emptySet<String>()
@@ -105,7 +107,7 @@ class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
 
         logger.log("")
         if (buffer.isProbablyUtf8()) {
-          logger.log(buffer.readString(charset))
+          logger.log(buffer.readString(min(buffer.size, maxBodyLength), charset))
           logger.log("--> END ${request.method} (${requestBody.contentLength()}-byte body)")
         } else {
           logger.log(
@@ -166,7 +168,7 @@ class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
 
         if (contentLength != 0L) {
           logger.log("")
-          logger.log(buffer.clone().readString(charset))
+          logger.log(buffer.clone().readString(min(buffer.size, maxBodyLength), charset))
         }
 
         if (gzippedLength != null) {
