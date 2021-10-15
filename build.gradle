@@ -3,9 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.github.jitpack'
-version '1.0.0'
-
 repositories {
     mavenCentral()
 }
@@ -17,6 +14,7 @@ dependencies {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            from components.java
             pom {
                 name = 'Customizable OkHttp Logging Interceptor'
                 description = 'An OkHttp interceptor which logs HTTP request and response data and allows output customization.'
@@ -24,7 +22,7 @@ publishing {
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
             }
