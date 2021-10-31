@@ -95,30 +95,31 @@ class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
       for (i in 0 until headers.size) {
         logHeader(headers, i)
       }
+    }
 
-      if (!logBody || requestBody == null) {
-        logger.log("--> END ${request.method}")
-      } else if (bodyHasUnknownEncoding(request.headers)) {
-        logger.log("--> END ${request.method} (encoded body omitted)")
-      } else if (requestBody.isDuplex()) {
-        logger.log("--> END ${request.method} (duplex request body omitted)")
-      } else if (requestBody.isOneShot()) {
-        logger.log("--> END ${request.method} (one-shot body omitted)")
+    if (!logBody || requestBody == null) {
+      logger.log("--> END ${request.method}")
+    } else if (bodyHasUnknownEncoding(request.headers)) {
+      logger.log("--> END ${request.method} (encoded body omitted)")
+    } else if (requestBody.isDuplex()) {
+      logger.log("--> END ${request.method} (duplex request body omitted)")
+    } else if (requestBody.isOneShot()) {
+      logger.log("--> END ${request.method} (one-shot body omitted)")
+    } else {
+      val buffer = Buffer()
+      requestBody.writeTo(buffer)
+
+      val contentType = requestBody.contentType()
+      val charset: Charset = contentType?.charset(UTF_8) ?: UTF_8
+
+      logger.log("")
+      if (buffer.isProbablyUtf8()) {
+        logger.log(buffer.readString(min(buffer.size, maxBodyLength), charset))
+        logger.log("--> END ${request.method} (${requestBody.contentLength()}-byte body)")
       } else {
-        val buffer = Buffer()
-        requestBody.writeTo(buffer)
-
-        val contentType = requestBody.contentType()
-        val charset: Charset = contentType?.charset(UTF_8) ?: UTF_8
-
-        logger.log("")
-        if (buffer.isProbablyUtf8()) {
-          logger.log(buffer.readString(min(buffer.size, maxBodyLength), charset))
-          logger.log("--> END ${request.method} (${requestBody.contentLength()}-byte body)")
-        } else {
-          logger.log(
-              "--> END ${request.method} (binary ${requestBody.contentLength()}-byte body omitted)")
-        }
+        logger.log(
+          "--> END ${request.method} (binary ${requestBody.contentLength()}-byte body omitted)"
+        )
       }
     }
 
@@ -139,49 +140,49 @@ class CustomizableHttpLoggingInterceptor @JvmOverloads constructor(
     logger.log(
         "<-- ${response.code}${if (response.message.isEmpty()) "" else ' ' + response.message} ${response.request.url} (${tookMs}ms${if (!logHeaders) ", $bodySize body" else ""})")
 
+    val headers = response.headers
     if (logHeaders) {
-      val headers = response.headers
       for (i in 0 until headers.size) {
         logHeader(headers, i)
       }
+    }
 
-      if (!logBody || !response.promisesBody()) {
-        logger.log("<-- END HTTP")
-      } else if (bodyHasUnknownEncoding(response.headers)) {
-        logger.log("<-- END HTTP (encoded body omitted)")
+    if (!logBody || !response.promisesBody()) {
+      logger.log("<-- END HTTP")
+    } else if (bodyHasUnknownEncoding(response.headers)) {
+      logger.log("<-- END HTTP (encoded body omitted)")
+    } else {
+      val source = responseBody.source()
+      source.request(Long.MAX_VALUE) // Buffer the entire body.
+      var buffer = source.buffer
+
+      var gzippedLength: Long? = null
+      if ("gzip".equals(headers["Content-Encoding"], ignoreCase = true)) {
+        gzippedLength = buffer.size
+        GzipSource(buffer.clone()).use { gzippedResponseBody ->
+          buffer = Buffer()
+          buffer.writeAll(gzippedResponseBody)
+        }
+      }
+
+      val contentType = responseBody.contentType()
+      val charset: Charset = contentType?.charset(UTF_8) ?: UTF_8
+
+      if (!buffer.isProbablyUtf8()) {
+        logger.log("")
+        logger.log("<-- END HTTP (binary ${buffer.size}-byte body omitted)")
+        return response
+      }
+
+      if (contentLength != 0L) {
+        logger.log("")
+        logger.log(buffer.clone().readString(min(buffer.size, maxBodyLength), charset))
+      }
+
+      if (gzippedLength != null) {
+        logger.log("<-- END HTTP (${buffer.size}-byte, $gzippedLength-gzipped-byte body)")
       } else {
-        val source = responseBody.source()
-        source.request(Long.MAX_VALUE) // Buffer the entire body.
-        var buffer = source.buffer
-
-        var gzippedLength: Long? = null
-        if ("gzip".equals(headers["Content-Encoding"], ignoreCase = true)) {
-          gzippedLength = buffer.size
-          GzipSource(buffer.clone()).use { gzippedResponseBody ->
-            buffer = Buffer()
-            buffer.writeAll(gzippedResponseBody)
-          }
-        }
-
-        val contentType = responseBody.contentType()
-        val charset: Charset = contentType?.charset(UTF_8) ?: UTF_8
-
-        if (!buffer.isProbablyUtf8()) {
-          logger.log("")
-          logger.log("<-- END HTTP (binary ${buffer.size}-byte body omitted)")
-          return response
-        }
-
-        if (contentLength != 0L) {
-          logger.log("")
-          logger.log(buffer.clone().readString(min(buffer.size, maxBodyLength), charset))
-        }
-
-        if (gzippedLength != null) {
-          logger.log("<-- END HTTP (${buffer.size}-byte, $gzippedLength-gzipped-byte body)")
-        } else {
-          logger.log("<-- END HTTP (${buffer.size}-byte body)")
-        }
+        logger.log("<-- END HTTP (${buffer.size}-byte body)")
       }
     }
 
