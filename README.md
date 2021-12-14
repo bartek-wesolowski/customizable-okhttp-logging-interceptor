@@ -50,7 +50,7 @@ allprojects {
 ```
 
 ```kotlin
-implementation("com.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:1.0.1")
+implementation("com.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:1.0.2")
 ```
 
 
