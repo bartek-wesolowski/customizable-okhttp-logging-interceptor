@@ -24,7 +24,7 @@ jobs:
       - name: Configure JDK
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: 11
 
       - name: Build
