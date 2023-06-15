@@ -1,8 +1,8 @@
 Customizable OkHttp Logging Interceptor
 ===================
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.bartek-wesolowski/customizable-okhttp-logging-interceptor/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.bartek-wesolowski/customizable-okhttp-logging-interceptor)
 ![example workflow](https://github.com/bartek-wesolowski/customizable-okhttp-logging-interceptor/actions/workflows/build.yml/badge.svg)
-[![](https://jitpack.io/v/bartek-wesolowski/customizable-okhttp-logging-interceptor.svg)](https://jitpack.io/#bartek-wesolowski/customizable-okhttp-logging-interceptor)
 
 An [OkHttp interceptor][interceptors] which logs HTTP request and response data and allows output customization.
 The implementation is based on the [Logging Interceptor from OkHttp][okhttp-logging-interceptor].
