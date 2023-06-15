@@ -1,0 +1,11 @@
+[versions]
+kotlinVersion = "1.8.22"
+mavenPublishVersion = "0.25.2"
+okhttpVersion = "4.11.0"
+
+[libraries]
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttpVersion" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinVersion" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublishVersion" }

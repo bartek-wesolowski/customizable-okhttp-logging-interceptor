@@ -1,8 +1,8 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.8.22"
-    id("com.vanniktech.maven.publish") version "0.25.2"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.maven.publish)
 }
 
 repositories {
@@ -14,7 +14,7 @@ kotlin {
 }
 
 dependencies {
-    api("com.squareup.okhttp3:okhttp:4.11.0")
+    api(libs.okhttp)
 }
 
 // https://vanniktech.github.io/gradle-maven-publish-plugin/central/
