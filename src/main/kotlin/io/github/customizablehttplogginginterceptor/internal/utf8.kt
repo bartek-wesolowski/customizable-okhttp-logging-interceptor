@@ -1,4 +1,4 @@
-package com.bartoszwesolowski.okhttp3.logging.internal
+package io.github.customizablehttplogginginterceptor.internal
 
 import java.io.EOFException
 import okio.Buffer

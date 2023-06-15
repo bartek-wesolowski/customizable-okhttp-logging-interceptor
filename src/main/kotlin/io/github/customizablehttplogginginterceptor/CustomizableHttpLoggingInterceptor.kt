@@ -1,6 +1,6 @@
-package com.bartoszwesolowski.okhttp3.logging
+package io.github.customizablehttplogginginterceptor
 
-import com.bartoszwesolowski.okhttp3.logging.internal.isProbablyUtf8
+import io.github.customizablehttplogginginterceptor.internal.isProbablyUtf8
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
