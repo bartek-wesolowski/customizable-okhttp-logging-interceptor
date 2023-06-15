@@ -38,22 +38,17 @@ loggingInterceptor.redactHeader("Cookie")
 
 Installation
 --------
-Add [JitPack][jitpack] to the repository list:
-
+Customizable OkHttp Logging Interceptor is available on Maven Central. Add the following to your `build.gradle`/`build.gradle.kts` file:
+#### Groovy DSL
 ```groovy
-allprojects {
-  repositories {
-    ...
-
-    maven { url 'https://jitpack.io' }
-}
+testImplementation "io.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:2.0.0"
 ```
 
+#### Kotlin DSL
 ```kotlin
-implementation("com.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:1.0.2")
+testImplementation("io.github.bartek-wesolowski:customizable-okhttp-logging-interceptor:2.0.0")
 ```
 
 
 [interceptors]: https://square.github.io/okhttp/interceptors/
 [okhttp-logging-interceptor]: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
-[jitpack]: https://jitpack.io/#bartek-wesolowski/customizable-okhttp-logging-interceptor
