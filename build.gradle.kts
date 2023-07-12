@@ -22,7 +22,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01, true)
     signAllPublications()
 
-    coordinates("io.github.bartek-wesolowski", "mockito-kotlin-rx", "2.0.0")
+    coordinates("io.github.bartek-wesolowski", "customizable-okhttp-logging-interceptor", "2.0.0")
 
     pom {
         name.set("Customizable OkHttp Logging Interceptor")
