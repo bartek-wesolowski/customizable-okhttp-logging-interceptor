@@ -1,6 +1,6 @@
 [versions]
 kotlinVersion = "1.9.22"
-mavenPublishVersion = "0.26.0"
+mavenPublishVersion = "0.27.0"
 okhttpVersion = "4.12.0"
 
 [libraries]
