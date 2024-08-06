@@ -1,5 +1,5 @@
 [versions]
-kotlinVersion = "2.0.0"
+kotlinVersion = "2.0.10"
 mavenPublishVersion = "0.29.0"
 okhttpVersion = "4.12.0"
 
